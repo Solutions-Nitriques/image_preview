@@ -8,7 +8,7 @@
 
 	var selector = '.field-upload';
 		
-	function addImage(t, h) {
+	function addImage(t, h, c) {
 		if (!t || !t.length) { return t;}
 		
 		t.each(function () {
@@ -23,7 +23,9 @@
 			img.src = imgSrc;
 			
 			$(img).load(function () {
-				$('a', container).css({padding:'0 !important',position:'absolute'}).html('<img src="'+imgSrc+'" alt="" />');
+				var css = $.extend({padding:'0 !important'}, c);
+			
+				$('a', container).css(css).html('<img src="'+imgSrc+'" alt="" />');
 			});
 		});
 		
@@ -32,7 +34,7 @@
 
 	function init() {
 		// list view
-		addImage($('td' + selector), 40);
+		addImage($('td' + selector), 40, {position:'absolute'});
 		
 		// detail view
 		addImage($('div' + selector), 100);
