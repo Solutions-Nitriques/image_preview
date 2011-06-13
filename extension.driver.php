@@ -44,15 +44,8 @@
 			$c = $c['pageroot'];
 			
 			// Only add when editing a section
-			if (startsWith($c, '/publish/')) {
-				Administration::instance()->Page->addElementToHead(
-					new XMLElement(
-						'script',
-						array(
-							'src' => '/extensions/image_preview/assets/image_preview.js'
-						)
-					), time()+1
-				);
+			if ($this->startsWith($c, '/publish/')) {
+				Administration::instance()->Page->addScriptToHead('/extensions/image_preview/assets/image_preview.js',time()+1);
 			}
 		}
 	}
