@@ -14,7 +14,7 @@
 		t.each(function () {
 			var container = $(this);
 				img = new Image(),
-				imgSrc = t.find('a').attr('href');
+				imgSrc = container.find('a').attr('href');
 				
 			if (imgSrc) {
 				imgSrc = imgSrc.replace('workspace','image/1/'+h+'/0');
