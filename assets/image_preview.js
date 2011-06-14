@@ -25,7 +25,7 @@
 			$(img).load(function () {
 				var css = $.extend({padding:'0 !important'}, c);
 			
-				$('a', container).css(css).html('<img src="'+imgSrc+'" alt="" />');
+				$('a', container).css(css).html('<img src="'+this.src+'" alt="" />');
 			});
 		});
 		
