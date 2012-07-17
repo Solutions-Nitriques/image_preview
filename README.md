@@ -1,7 +1,11 @@
-Real simple extension to Symphony cms
+# Image Preview
+
+Version 1.1
+
+### Real simple extension to Symphony cms
 
 1- Just unzip and put in extension dir
-2- Name the folder image_preview
+2- Name the folder **image_preview**
 3- Enable just like any other ext
 
 *** You must enable JIT Image Manipulation inorder to make the thumbnail work

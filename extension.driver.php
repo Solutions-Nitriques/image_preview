@@ -8,24 +8,6 @@
 	*/
 	class extension_image_preview extends Extension {
 
-		public function about() {
-			return array(
-				'name'			=> 'Image Preview',
-				'version'		=> '1.0',
-				'release-date'	=> '2011-06-13',
-				'author'		=> array(
-					'name'			=> 'Solutions Nitriques',
-					'website'		=> 'http://www.nitriques.com/',
-					'email'			=> 'nico@nitriques.com'
-				),
-				'description'	=> 'Really simple ext that shows a preview of an file upload field if it is an image',
-				'compatibility' => array(
-					'2.2.1' => true,
-					'2.2' => true
-				)
-	 		);
-		}
-
 		public function getSubscribedDelegates(){
 			return array(
 				array(
