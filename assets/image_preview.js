@@ -6,7 +6,7 @@
 // In a nut shell
 (function ($, undefined) {
 
-	var selector = '.field-upload';
+	var selector = '.field-upload, .field-image_upload';
 		
 	function addImage(t, h, c) {
 		if (!t || !t.length) { return t;}
