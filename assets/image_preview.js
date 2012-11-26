@@ -1,43 +1,50 @@
 ﻿/**
+ * Image Preview
  * 
+ * @author Deux Huit Huit
 **/
 
 
 // In a nut shell
 (function ($, undefined) {
 
-	var selector = '.field-upload, .field-image_upload';
+	var 
+	
+	selectors = '.field-upload .field-image_upload .field-uniqueupload'.split(' '),
 		
-	function addImage(t, h, c) {
+	addImage = function(t, h, css) {
 		if (!t || !t.length) { return t;}
 		
-		t.each(function () {
+		return t.each(function _eachField() {
 			var container = $(this);
 				img = new Image(),
 				imgSrc = container.find('a').attr('href');
 				
-			if (imgSrc) {
+			if (!!imgSrc && !!h) {
 				imgSrc = imgSrc.replace('workspace','image/1/'+h+'/0');
 			}
 		
 			img.src = imgSrc;
 			
 			$(img).load(function () {
-				var css = $.extend({padding:'0 !important'}, c);
-			
-				$('a', container).css(css).html('<img src="'+this.src+'" alt="" />');
+				var lcss = $.extend({padding:'0 !important'}, css),
+					i = $('<img />').attr('src', this.src);
+					
+				$('a', container).css(lcss).empty().append(i);
 			});
 		});
-		
-		return t;
-	};
+	},
 
-	function init() {
-		// list view
-		addImage($('td' + selector), 40, {position:'absolute'});
-		
-		// detail view
-		addImage($('div' + selector), 100);
+	init = function () {
+		$.each(selectors, function _eachSelector() {
+			var sel = this;
+			
+			// list view
+			addImage($('td' + sel), 40, {position:'absolute'});
+			
+			// detail view
+			addImage($('div' + sel), 100);
+		});
 	};
 	
 	$(init);

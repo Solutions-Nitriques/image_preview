@@ -1,8 +1,8 @@
 # Image Preview
 
-Version 1.1
+Version 2.0
 
-### Real simple extension to Symphony cms
+### Makes upload fields show a preview of the file in the backend if it is an image 
 
 1- Just unzip and put in extension dir
 2- Name the folder **image_preview**
@@ -10,4 +10,13 @@ Version 1.1
 
 *** You must enable JIT Image Manipulation inorder to make the thumbnail work
 
+#### Compatible with
+
+- Upload field
+- Image upload field
+- Unique upload field
+
 Voila !
+
+http://www.deuxhuithuit.com/
+
