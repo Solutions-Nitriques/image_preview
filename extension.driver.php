@@ -3,9 +3,11 @@
 	if(!defined("__IN_SYMPHONY__")) die("<h2>Error</h2><p>You cannot directly access this file</p>");
 
 	/*
-	Copyight: Solutions Nitriques 2011
 	License: MIT
 	*/
+	
+	require_once(EXTENSIONS . '/image_preview/fields/field.image_preview.php');
+	
 	class extension_image_preview extends Extension {
 
 		public function getSubscribedDelegates(){
@@ -19,7 +21,7 @@
 		}
 		
 		// FROM: http://stackoverflow.com/questions/834303/php-startswith-and-endswith-functions
-		function startsWith($haystack, $needle) {
+		private function startsWith($haystack, $needle) {
 			$length = strlen($needle);
 			return (substr($haystack, 0, $length) === $needle);
 		}
@@ -32,5 +34,38 @@
 			if ($this->startsWith($c, '/publish/')) {
 				Administration::instance()->Page->addScriptToHead('/extensions/image_preview/assets/image_preview.js',time()+1);
 			}
+		}
+		
+		
+		
+		/* ********* INSTALL/UPDATE/UNISTALL ******* */
+
+		/**
+		 * Creates the table needed for the settings of the field
+		 */
+		public function install() {
+			return FieldImage_Preview::createFieldTable();
+		}
+		
+		
+		/**
+		 * Creates the table needed for the settings of the field
+		 */
+		public function update($previousVersion) {
+			$ret = true;
+
+			// are we updating from lower than 2.0 ?
+			if ($ret && version_compare($previousVersion,'2.0') == -1) {
+				$ret = FieldImage_Preview::createFieldTable();
+			}
+			return $ret;
+		}
+		
+		/**
+		 *
+		 * Drops the table needed for the settings of the field
+		 */
+		public function uninstall() {
+			return FieldImage_Preview::deleteFieldTable();
 		}
 	}

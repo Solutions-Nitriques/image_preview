@@ -14,6 +14,7 @@ Version 2.0
 
 - Upload field
 - Image upload field
+- Multilingual field upload
 - Unique upload field
 
 Voila !

@@ -10,10 +10,12 @@
 
 	var 
 	
-	selectors = '.field-upload .field-image_upload .field-uniqueupload'.split(' '),
+	selectors = '.field-upload .field-image_upload .field-uniqueupload .field-multilingual_image_upload'.split(' '),
 		
 	addImage = function(t, h, css) {
-		if (!t || !t.length) { return t;}
+		if (!t || !t.length) { 
+			return t;
+		}
 		
 		return t.each(function _eachField() {
 			var container = $(this);
