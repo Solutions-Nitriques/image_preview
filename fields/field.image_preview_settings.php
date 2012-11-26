@@ -21,6 +21,8 @@
 		 */
 		const FIELD_TBL_NAME = 'tbl_fields_image_preview_settings';
 
+		private $prefixes = array('Table' => 'table-', 'Entry' => 'entry-');
+
 
 		/**
 		 *
@@ -101,9 +103,7 @@
 
 		/**
 		 *
-		 * Process data before saving into database.
-		 * Also,
-		 * Fetches oEmbed data from the source
+		 * Process entries data before saving into database.
 		 *
 		 * @param array $data
 		 * @param int $status
@@ -135,16 +135,19 @@
 			$new_settings = array();
 
 			// set new settings
-			$new_settings['table-width'] = 		( isset($settings['table-width'])    && is_numeric($settings['table-width'])    ? intval($settings['table-width']): NULL);
-			$new_settings['table-height'] = 	( isset($settings['table-height'])   && is_numeric($settings['table-height'])   ? intval($settings['table-height']): NULL);
-			$new_settings['table-resize'] = 	( isset($settings['table-resize'])   && is_numeric($settings['table-resize'])   ? intval($settings['table-resize']): NULL);
-			$new_settings['table-position'] = 	( isset($settings['table-position']) && is_numeric($settings['table-position']) ? intval($settings['table-position']): NULL);
+			$new_settings['field-handles'] = 	( $settings['field-handles'] );
+			
+			//var_dump(isset($settings['table-width']));die;
+			$new_settings['table-width'] = 		( isset($settings['table-width'])    ? $settings['table-width'] : NULL);
+			$new_settings['table-height'] = 	( isset($settings['table-height'])   ? $settings['table-height'] : NULL);
+			$new_settings['table-resize'] = 	( isset($settings['table-resize'])   ? $settings['table-resize'] : NULL);
+			$new_settings['table-position'] = 	( isset($settings['table-position']) ? $settings['table-position'] : NULL);
 			$new_settings['table-absolute'] = 	( isset($settings['table-absolute']) && $settings['table-absolute'] == 'on'     ? 'yes' : 'no');
 			
-			$new_settings['entry-width'] = 		( isset($settings['entry-width'])    && is_numeric($settings['entry-width'])    ? intval($settings['entry-width']): NULL);
-			$new_settings['entry-height'] = 	( isset($settings['entry-height'])   && is_numeric($settings['entry-height'])   ? intval($settings['entry-height']): NULL);
-			$new_settings['entry-resize'] = 	( isset($settings['entry-resize'])   && is_numeric($settings['entry-resize'])   ? intval($settings['entry-resize']): NULL);
-			$new_settings['entry-position'] = 	( isset($settings['entry-position']) && is_numeric($settings['entry-position']) ? intval($settings['entry-position']): NULL);
+			$new_settings['entry-width'] = 		( isset($settings['entry-width'])    ? $settings['entry-width'] : NULL);
+			$new_settings['entry-height'] = 	( isset($settings['entry-height'])   ? $settings['entry-height'] : NULL);
+			$new_settings['entry-resize'] = 	( isset($settings['entry-resize'])   ? $settings['entry-resize'] : NULL);
+			$new_settings['entry-position'] = 	( isset($settings['entry-position']) ? $settings['entry-position'] : NULL);
 			$new_settings['entry-absolute'] = 	( isset($settings['entry-absolute']) && $settings['entry-absolute'] == 'on'     ? 'yes' : 'no');
 			
 			// save it into the array
@@ -159,6 +162,31 @@
 		public function checkFields(Array &$errors, $checkForDuplicates) {
 			parent::checkFields($errors, $checkForDuplicates);
 			
+			$field_handles = $this->get('field-handles');
+			
+			if (empty($field_handles)) {
+				$errors['field-handles'] = __('You must set at least one field handle or * to enable those settings for all fields in this section');
+			}
+			
+			foreach ($this->prefixes as $key => $prefix) {
+				$width = $this->get($prefix.'width');
+				$height = $this->get($prefix.'height');
+				$resize = $this->get($prefix.'resize');
+				$position = $this->get($prefix.'position');
+				
+				if (!empty($width) && (!is_numeric($width) || intval($width) < 0)) {
+					$errors[$prefix.'width'] = __('Width must be a positive integer');
+				}
+				if (!empty($height) && (!is_numeric($height) || intval($height) < 0)) {
+					$errors[$prefix.'height'] = __('Height must be a positive integer');
+				}
+				if (!empty($resize) && (!is_numeric($resize) || intval($resize) < 1 || intval($resize) > 3)) {
+					$errors[$prefix.'resize'] = __('Resize must be a positive integer between 1 and 3');
+				}
+				if (!empty($position) && (!is_numeric($position) || intval($position) < 1 || intval($position) > 9)) {
+					$errors[$prefix.'position'] = __('Position must be a positive integer between 1 and 9');
+				}
+			}
 			
 			return (!empty($errors) ? self::__ERROR__ : self::__OK__);
 		}
@@ -194,6 +222,9 @@
 
 			// the field id
 			$settings['field_id'] = $id;
+			
+			// the related fields handles
+			$settings['field-handles'] = $this->get('field-handles');
 
 			// the 'table' settings
 			$settings['table-width']    =  empty($t_width) ? NULL : $t_width;
@@ -260,12 +291,12 @@
 		public function displayPublishPanel(&$wrapper, $data=NULL, $flagWithError=NULL, $fieldnamePrefix=NULL, $fieldnamePostfix=NULL) {
 
 			// only set data-attributes on the wrapper
-			
-			$wrapper->setAttribute('data-width',    $this->get('table-width'));
-			$wrapper->setAttribute('data-height',   $this->get('table-height'));
-			$wrapper->setAttribute('data-resize',   $this->get('table-resize'));
-			$wrapper->setAttribute('data-position', $this->get('table-position'));
-			$wrapper->setAttribute('data-absolute', $this->get('table-absolute'));
+			$wrapper->setAttribute('data-field-handles', $this->get('field-handles'));
+			$wrapper->setAttribute('data-width',    $this->get('entry-width'));
+			$wrapper->setAttribute('data-height',   $this->get('entry-height'));
+			$wrapper->setAttribute('data-resize',   $this->get('entry-resize'));
+			$wrapper->setAttribute('data-position', $this->get('entry-position'));
+			$wrapper->setAttribute('data-absolute', $this->get('entry-absolute'));
 		}
 
 		/**
@@ -279,26 +310,29 @@
 			/* first line, label and such */
 			parent::displaySettingsPanel($wrapper, $errors);
 			
-			$prefixes = array('Table' => 'table-', 'Entry' => 'entry-');
+			$handles_wrap = new XMLElement('div', NULL, array('class' => 'image_preview'));
+			$handles_wrap->appendChild( $this->createInput('Fields handles <i>Type * for all fields; Comma separated list for multiple fields</i>', 'field-handles', $errors) );
+			$wrapper->appendChild($handles_wrap);
 			
-			foreach ($prefixes as $key => $prefix) {
+			foreach ($this->prefixes as $key => $prefix) {
 				/* new line, settings */
 				$set_wrap = new XMLElement('div', NULL, array('class' => 'compact image_preview'));
 				$set_wrap->appendChild( new XMLElement('label', __($key . ' Preview settings')) );
 				
 				/* new line, width/height */
 				$wh_wrap = new XMLElement('div', NULL, array('class' => 'two columns'));
-				$wh_wrap->appendChild($this->createInput('Width <i>JIT image manipulation width parameter</i>', $prefix.'width'));
-				$wh_wrap->appendChild($this->createInput('Height <i>JIT image manipulation height parameter</i>', $prefix.'height'));
+				$wh_wrap->appendChild($this->createInput('Width <i>JIT image manipulation width parameter</i>', $prefix.'width', $errors));
+				$wh_wrap->appendChild($this->createInput('Height <i>JIT image manipulation height parameter</i>', $prefix.'height', $errors));
+				
 				
 				/* new line, resize/position */
 				$rp_wrap = new XMLElement('div', NULL, array('class' => 'two columns'));
-				$rp_wrap->appendChild($this->createInput('Resize <i>JIT image manipulation resize mode [1-3]</i>', $prefix.'resize'));
-				$rp_wrap->appendChild($this->createInput('Position <i>JIT image manipulation position parameter [1-9]</i>', $prefix.'position'));
+				$rp_wrap->appendChild($this->createInput('Resize <i>JIT image manipulation resize mode [1-3]</i>', $prefix.'resize', $errors));
+				$rp_wrap->appendChild($this->createInput('Position <i>JIT image manipulation position parameter [1-9]</i>', $prefix.'position', $errors));
 				
 				/* new line, absolute */
 				$a_wrap = new XMLElement('div', NULL, array('class' => 'two columns'));
-				$a_wrap->appendChild($this->createCheckbox('Absolute ? <i>Makes the image absolute</i>', $prefix.'absolute'));
+				$a_wrap->appendChild($this->createCheckbox('Absolute ? <i>Makes the image absolute</i>', $prefix.'absolute', $errors));
 				
 	
 				/* append to wrapper */
@@ -312,7 +346,7 @@
 		}
 
 
-		private function createInput($text, $key) {
+		private function createInput($text, $key, $errors=NULL) {
 			$order = $this->get('sortorder');
 			$lbl = new XMLElement('label', __($text), array('class' => 'column'));
 			$input = new XMLElement('input', NULL, array(
@@ -323,6 +357,12 @@
 			$input->setSelfClosingTag(true);
 			
 			$lbl->prependChild($input);
+			
+			//var_dump($errors[$key]);
+			
+			if (isset($errors[$key])) {
+				$lbl = Widget::wrapFormElementWithError($lbl, $errors[$key]);
+			}
 			
 			return $lbl;
 		}
@@ -354,38 +394,24 @@
 		 */
 		public function prepareTableValue($data, XMLElement $link=NULL){
 
-			$url = $data['url'];
-			$thumb = $data['thumbnail_url'];
-			$textValue = $this->preparePlainTextValue($data, $data['res_id']);
-			$value = NULL;
-
-			// no url = early exit
-			if(strlen($url) == 0) return NULL;
-
-			// no thumbnail or the parameter is not set ?
-			if (empty($thumb) || $this->get('thumbs') != 'yes') {
-				// if not use the title or the url as value
-				$value = $textValue;
-			} else {
-				// create a image
-				$img_path = URL . '/image/1/0/40/1/' .  str_replace('http://', '',$thumb);
-
-				$value = '<img src="' . $img_path .'" alt="' . General::sanitize($data['title']) .'" height="40" />';
-			}
+			// no params = early exit
+			if(empty($data)) return NULL;
 
 			// does this cell serve as a link ?
-			if (!!$link){
-				// if so, set our html as the link's value
-				$link->setValue($value);
-				$link->setAttribute('title', $textValue . ' | ' . $link->getAttribute('title'));
-
-			} else {
+			if (!$link){
 				// if not, wrap our html with a external link to the resource url
-				$link = new XMLElement('a',
-					$value,
-					array('href' => $url, 'target' => '_blank', 'title' => $textValue)
+				$link = new XMLElement('div',
+					NULL,
+					array('class' => '$url')
 				);
 			}
+			
+			$link->setAttribute('data-field-handles', $this->get('field-handles'));
+			$link->setAttribute('data-width',    $this->get('table-width'));
+			$link->setAttribute('data-height',   $this->get('table-height'));
+			$link->setAttribute('data-resize',   $this->get('table-resize'));
+			$link->setAttribute('data-position', $this->get('table-position'));
+			$link->setAttribute('data-absolute', $this->get('table-absolute'));
 
 			// returns the link's html code
 			return $link->generate();
@@ -436,6 +462,7 @@
 				CREATE TABLE IF NOT EXISTS `$tbl` (
 					`id` 				int(11) unsigned NOT NULL auto_increment,
 					`field_id` 			int(11) unsigned NOT NULL,
+					`field-handles`		varchar(255) NOT NULL,
 					`table-width` 		int(11) unsigned NULL,
 					`table-height` 		int(11) unsigned NULL,
 					`table-resize` 		int(11) unsigned NULL,

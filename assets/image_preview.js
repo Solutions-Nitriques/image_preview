@@ -13,7 +13,22 @@
 	optionsSelector = '.field-image_preview',
 	
 	selectors = '.field-upload .field-image_upload .field-uniqueupload .field-multilingual_image_upload'.split(' '),
-		
+	
+	defaultValues = {
+		width: 40,
+		height: 0,
+		resize: 1
+	},
+	
+	defaultParameters = {
+		table: $.extend({}, defaultValues),
+		entry: $.extend({}, defaultValues, {width: 100}),
+	},
+	
+	getParameters = function () {
+		var node = $(optionsSelector).filter();
+	},
+	
 	addImage = function(t, h, css) {
 		if (!t || !t.length) { 
 			return t;
@@ -27,15 +42,18 @@
 			if (!!imgSrc && !!h) {
 				imgSrc = imgSrc.replace('workspace','image/1/'+h+'/0');
 			}
-		
-			img.src = imgSrc;
 			
-			$(img).load(function () {
+			// bind load event
+			$(img).load(function _imageLoaded (e) {
 				var lcss = $.extend({padding:'0 !important'}, css),
 					i = $('<img />').attr('src', this.src);
 					
 				$('a', container).css(lcss).empty().append(i);
 			});
+		
+			// load the image
+			img.src = imgSrc;
+			
 		});
 	},
 
