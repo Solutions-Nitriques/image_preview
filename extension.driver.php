@@ -6,7 +6,7 @@
 	License: MIT
 	*/
 	
-	require_once(EXTENSIONS . '/image_preview/fields/field.image_preview.php');
+	require_once(EXTENSIONS . '/image_preview/fields/field.image_preview_settings.php');
 	
 	class extension_image_preview extends Extension {
 

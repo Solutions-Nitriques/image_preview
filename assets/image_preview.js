@@ -10,6 +10,8 @@
 
 	var 
 	
+	optionsSelector = '.field-image_preview',
+	
 	selectors = '.field-upload .field-image_upload .field-uniqueupload .field-multilingual_image_upload'.split(' '),
 		
 	addImage = function(t, h, css) {
@@ -38,6 +40,15 @@
 	},
 
 	init = function () {
+		
+		// hide field
+		$(optionsSelector).css({
+			height: 1,
+			minHeight: 0,
+			margin: 0
+		});
+		
+		// show images
 		$.each(selectors, function _eachSelector() {
 			var sel = this;
 			

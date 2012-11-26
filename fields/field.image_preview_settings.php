@@ -12,14 +12,14 @@
 	 * Based on @nickdunn's Vimeo field: https://github.com/nickdunn/vimeo_videos/
 	 *
 	 */
-	class FieldImage_Preview extends Field {
+	class FieldImage_Preview_Settings extends Field {
 
 		/**
 		 *
 		 * Name of the field table
 		 * @var string
 		 */
-		const FIELD_TBL_NAME = 'tbl_fields_image_preview';
+		const FIELD_TBL_NAME = 'tbl_fields_image_preview_settings';
 
 
 		/**
@@ -51,7 +51,7 @@
 
 		public function canFilter(){
 			return false;
-			}
+		}
 
 		public function canImport(){
 			return false;
@@ -135,11 +135,17 @@
 			$new_settings = array();
 
 			// set new settings
-			$new_settings['width'] = 		( isset($settings['width'])    && is_numeric($settings['width'])    ? intval($settings['width']): NULL);
-			$new_settings['height'] = 		( isset($settings['height'])   && is_numeric($settings['height'])   ? intval($settings['height']): NULL);
-			$new_settings['resize'] = 		( isset($settings['resize'])   && is_numeric($settings['resize'])   ? intval($settings['resize']): NULL);
-			$new_settings['position'] = 	( isset($settings['position']) && is_numeric($settings['position']) ? intval($settings['position']): NULL);
-			$new_settings['absolute'] = 	( isset($settings['absolute']) && $settings['absolute'] == 'on'     ? 'yes' : 'no');
+			$new_settings['table-width'] = 		( isset($settings['table-width'])    && is_numeric($settings['table-width'])    ? intval($settings['table-width']): NULL);
+			$new_settings['table-height'] = 	( isset($settings['table-height'])   && is_numeric($settings['table-height'])   ? intval($settings['table-height']): NULL);
+			$new_settings['table-resize'] = 	( isset($settings['table-resize'])   && is_numeric($settings['table-resize'])   ? intval($settings['table-resize']): NULL);
+			$new_settings['table-position'] = 	( isset($settings['table-position']) && is_numeric($settings['table-position']) ? intval($settings['table-position']): NULL);
+			$new_settings['table-absolute'] = 	( isset($settings['table-absolute']) && $settings['table-absolute'] == 'on'     ? 'yes' : 'no');
+			
+			$new_settings['entry-width'] = 		( isset($settings['entry-width'])    && is_numeric($settings['entry-width'])    ? intval($settings['entry-width']): NULL);
+			$new_settings['entry-height'] = 	( isset($settings['entry-height'])   && is_numeric($settings['entry-height'])   ? intval($settings['entry-height']): NULL);
+			$new_settings['entry-resize'] = 	( isset($settings['entry-resize'])   && is_numeric($settings['entry-resize'])   ? intval($settings['entry-resize']): NULL);
+			$new_settings['entry-position'] = 	( isset($settings['entry-position']) && is_numeric($settings['entry-position']) ? intval($settings['entry-position']): NULL);
+			$new_settings['entry-absolute'] = 	( isset($settings['entry-absolute']) && $settings['entry-absolute'] == 'on'     ? 'yes' : 'no');
 			
 			// save it into the array
 			$this->setArray($new_settings);
@@ -154,7 +160,6 @@
 			parent::checkFields($errors, $checkForDuplicates);
 			
 			
-			
 			return (!empty($errors) ? self::__ERROR__ : self::__OK__);
 		}
 
@@ -165,31 +170,44 @@
 		public function commit() {
 
 			// if the default implementation works...
-			if(!parent::commit()) return false;
-
+			if(!parent::commit()) return FALSE;
+			
 			$id = $this->get('id');
-			$width = $this->get('width');
-			$height = $this->get('height');
-			$resize = $this->get('resize');
-			$position = $this->get('position');
-			$absolute = $this->get('absolute');
 
 			// exit if there is no id
 			if($id == false) return FALSE;
 
 			// declare an array contains the field's settings
 			$settings = array();
+			
+			$t_width = $this->get('table-width');
+			$t_height = $this->get('table-height');
+			$t_resize = $this->get('table-resize');
+			$t_position = $this->get('table-position');
+			$t_absolute = $this->get('table-absolute');
+			
+			$e_width = $this->get('entry-width');
+			$e_height = $this->get('entry-height');
+			$e_resize = $this->get('entry-resize');
+			$e_position = $this->get('entry-position');
+			$e_absolute = $this->get('entry-absolute');
 
 			// the field id
 			$settings['field_id'] = $id;
 
-			// the 'width' setting
-			$settings['width'] =  empty($width) ? NULL : $width;
-			$settings['height'] =  empty($height) ? NULL : $height;
-			$settings['resize'] =  empty($resize) ? NULL : $resize;
-			$settings['position'] =  empty($position) ? NULL : $position;
-			$settings['absolute'] =  empty($absolute) ? 'no' : $absolute;
-
+			// the 'table' settings
+			$settings['table-width']    =  empty($t_width) ? NULL : $t_width;
+			$settings['table-height']   =  empty($t_height) ? NULL : $t_height;
+			$settings['table-resize']   =  empty($t_resize) ? NULL : $t_resize;
+			$settings['table-position'] =  empty($t_position) ? NULL : $t_position;
+			$settings['table-absolute'] =  empty($t_absolute) ? 'no' : $t_absolute;
+			
+			// the 'entry' settings
+			$settings['entry-width']    =  empty($e_width) ? NULL : $e_width;
+			$settings['entry-height']   =  empty($e_height) ? NULL : $e_height;
+			$settings['entry-resize']   =  empty($e_resize) ? NULL : $e_resize;
+			$settings['entry-position'] =  empty($e_position) ? NULL : $e_position;
+			$settings['entry-absolute'] =  empty($e_absolute) ? 'no' : $e_absolute;
 			
 			// DB
 			$tbl = self::FIELD_TBL_NAME;
@@ -243,11 +261,11 @@
 
 			// only set data-attributes on the wrapper
 			
-			$wrapper->setAttribute('data-width',    $this->get('width'));
-			$wrapper->setAttribute('data-height',   $this->get('height'));
-			$wrapper->setAttribute('data-resize',   $this->get('resize'));
-			$wrapper->setAttribute('data-position', $this->get('position'));
-			$wrapper->setAttribute('data-absolute', $this->get('absolute'));
+			$wrapper->setAttribute('data-width',    $this->get('table-width'));
+			$wrapper->setAttribute('data-height',   $this->get('table-height'));
+			$wrapper->setAttribute('data-resize',   $this->get('table-resize'));
+			$wrapper->setAttribute('data-position', $this->get('table-position'));
+			$wrapper->setAttribute('data-absolute', $this->get('table-absolute'));
 		}
 
 		/**
@@ -261,41 +279,46 @@
 			/* first line, label and such */
 			parent::displaySettingsPanel($wrapper, $errors);
 			
+			$prefixes = array('Table' => 'table-', 'Entry' => 'entry-');
 			
-			/* new line, settings */
-			$set_wrap = new XMLElement('div', NULL, array('class' => 'compact image_preview'));
-			$set_wrap->appendChild( new XMLElement('label', __('Preview settings')) );
-			
-			/* new line, width/height */
-			$wh_wrap = new XMLElement('div', NULL, array('class' => 'two columns'));
-			$wh_wrap->appendChild($this->createInput('Width', 'width'));
-			$wh_wrap->appendChild($this->createInput('Height', 'height'));
-			
-			/* new line, resize/position */
-			$rp_wrap = new XMLElement('div', NULL, array('class' => 'two columns'));
-			$rp_wrap->appendChild($this->createInput('Resize', 'resize'));
-			$rp_wrap->appendChild($this->createInput('Position', 'position'));
-			
-			/* new line, absolute */
-			$a_wrap = new XMLElement('div', NULL, array('class' => 'two columns'));
-			$a_wrap->appendChild($this->createCheckbox('Absolute ?', 'absolute'));
-			
+			foreach ($prefixes as $key => $prefix) {
+				/* new line, settings */
+				$set_wrap = new XMLElement('div', NULL, array('class' => 'compact image_preview'));
+				$set_wrap->appendChild( new XMLElement('label', __($key . ' Preview settings')) );
+				
+				/* new line, width/height */
+				$wh_wrap = new XMLElement('div', NULL, array('class' => 'two columns'));
+				$wh_wrap->appendChild($this->createInput('Width <i>JIT image manipulation width parameter</i>', $prefix.'width'));
+				$wh_wrap->appendChild($this->createInput('Height <i>JIT image manipulation height parameter</i>', $prefix.'height'));
+				
+				/* new line, resize/position */
+				$rp_wrap = new XMLElement('div', NULL, array('class' => 'two columns'));
+				$rp_wrap->appendChild($this->createInput('Resize <i>JIT image manipulation resize mode [1-3]</i>', $prefix.'resize'));
+				$rp_wrap->appendChild($this->createInput('Position <i>JIT image manipulation position parameter [1-9]</i>', $prefix.'position'));
+				
+				/* new line, absolute */
+				$a_wrap = new XMLElement('div', NULL, array('class' => 'two columns'));
+				$a_wrap->appendChild($this->createCheckbox('Absolute ? <i>Makes the image absolute</i>', $prefix.'absolute'));
+				
+	
+				/* append to wrapper */
+				$wrapper->appendChild($set_wrap);
+				$wrapper->appendChild($wh_wrap);
+				$wrapper->appendChild($rp_wrap);
+				$wrapper->appendChild($a_wrap);
+			}
 
-			/* append to wrapper */
-			$wrapper->appendChild($set_wrap);
-			$wrapper->appendChild($wh_wrap);
-			$wrapper->appendChild($rp_wrap);
-			$wrapper->appendChild($a_wrap);
+			
 		}
 
 
 		private function createInput($text, $key) {
-			$id = $this->get('id');
+			$order = $this->get('sortorder');
 			$lbl = new XMLElement('label', __($text), array('class' => 'column'));
 			$input = new XMLElement('input', NULL, array(
 				'type' => 'text',
 				'value' => $this->get($key),
-				'name' => "fields[$id][$key]"
+				'name' => "fields[$order][$key]"
 			));
 			$input->setSelfClosingTag(true);
 			
@@ -305,11 +328,11 @@
 		}
 
 		private function createCheckbox($text, $key) {
-			$id = $this->get('id');
+			$order = $this->get('sortorder');
 			$lbl = new XMLElement('label', __($text), array('class' => 'column'));
 			$input = new XMLElement('input', NULL, array(
 				'type' => 'checkbox',
-				'name' => "fields[$id][$key]"
+				'name' => "fields[$order][$key]"
 			));
 			$input->setSelfClosingTag(true);
 			
@@ -379,7 +402,17 @@
 		}
 
 
-
+		/**
+		 *
+		 * This function allows Fields to cleanup any additional things before it is removed
+		 * from the section.
+		 * @return boolean
+		 */
+		public function tearDown() {
+			// do nothing
+			// this field has no data
+			return true;
+		}
 
 
 		/* ********* SQL Data Definition ************* */
@@ -401,13 +434,18 @@
 
 			return Symphony::Database()->query("
 				CREATE TABLE IF NOT EXISTS `$tbl` (
-					`id` 			int(11) unsigned NOT NULL auto_increment,
-					`field_id` 		int(11) unsigned NOT NULL,
-					`width` 		int(11) unsigned NULL,
-					`height` 		int(11) unsigned NULL,
-					`resize` 		int(11) unsigned NULL,
-					`position` 		int(11) unsigned NULL,
-					`absolute`		enum('yes','no') NOT NULL DEFAULT 'no',
+					`id` 				int(11) unsigned NOT NULL auto_increment,
+					`field_id` 			int(11) unsigned NOT NULL,
+					`table-width` 		int(11) unsigned NULL,
+					`table-height` 		int(11) unsigned NULL,
+					`table-resize` 		int(11) unsigned NULL,
+					`table-position` 	int(11) unsigned NULL,
+					`table-absolute` 	enum('yes','no') NOT NULL DEFAULT 'no',
+					`entry-width` 		int(11) unsigned NULL,
+					`entry-height` 		int(11) unsigned NULL,
+					`entry-resize` 		int(11) unsigned NULL,
+					`entry-position` 	int(11) unsigned NULL,
+					`entry-absolute`	enum('yes','no') NOT NULL DEFAULT 'no',
 					PRIMARY KEY (`id`),
 					KEY `field_id` (`field_id`)
 				)  ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
