@@ -134,8 +134,12 @@
 			// declare a new setting array
 			$new_settings = array();
 
+			// always display in table mode
+			$new_settings['show_column'] = 'yes';
+			
+
 			// set new settings
-			$new_settings['field-handles'] = 	( $settings['field-handles'] );
+			$new_settings['field-classes'] = 	( $settings['field-handles'] );
 			
 			//var_dump(isset($settings['table-width']));die;
 			$new_settings['table-width'] = 		( isset($settings['table-width'])    ? $settings['table-width'] : NULL);
@@ -279,6 +283,30 @@
 
 		/* ********* UI *********** */
 
+		private function convertHandlesIntoIds($handles) {
+			$ids = '';
+			
+			if (!empty($handles) && $handles != '*' ) {
+				$aHandles = explode(',', $handles);
+				$parent_section = $this->get('parent_section');
+				
+				foreach ($aHandles as $handle) {
+					$where = "AND t1.`element_name` = '$handle'";
+					$field = FieldManager::fetch(NULL, $parent_section, 'ASC', 'sortorder', NULL, NULL, $where);
+					$fieldId = array_keys($field);
+					$fieldId = $fieldId[0];
+					
+					if (!empty($fieldId)) {
+						$ids .= 'field-' . $field[$fieldId]->get('id') . ',';
+					}
+				}
+			} else {
+				$ids = '*'; // valid for all fields
+			}
+			
+			return $ids; 
+		}
+		
 		/**
 		 *
 		 * Builds the UI for the publish page
@@ -291,7 +319,7 @@
 		public function displayPublishPanel(&$wrapper, $data=NULL, $flagWithError=NULL, $fieldnamePrefix=NULL, $fieldnamePostfix=NULL) {
 
 			// only set data-attributes on the wrapper
-			$wrapper->setAttribute('data-field-handles', $this->get('field-handles'));
+			$wrapper->setAttribute('data-field-classes', $this->convertHandlesIntoIds($this->get('field-handles')));
 			$wrapper->setAttribute('data-width',    $this->get('entry-width'));
 			$wrapper->setAttribute('data-height',   $this->get('entry-height'));
 			$wrapper->setAttribute('data-resize',   $this->get('entry-resize'));
@@ -385,6 +413,9 @@
 			return $lbl;
 		}
 
+
+		private $tableValueGenerated = FALSE;
+		
 		/**
 		 *
 		 * Build the UI for the table view
@@ -393,28 +424,30 @@
 		 * @return string - the html of the link
 		 */
 		public function prepareTableValue($data, XMLElement $link=NULL){
+	
+			if (!$this->tableValueGenerated) { 
 
-			// no params = early exit
-			if(empty($data)) return NULL;
+				$this->tableValueGenerated = TRUE;
 
-			// does this cell serve as a link ?
-			if (!$link){
-				// if not, wrap our html with a external link to the resource url
-				$link = new XMLElement('div',
-					NULL,
-					array('class' => '$url')
-				);
+				// does this cell serve as a link ?
+				if (!$link){
+					// if not, wrap our html with a external link to the resource url
+					$link = new XMLElement('div');
+				}
+				
+				$link->setAttribute('data-field-classes', $this->convertHandlesIntoIds($this->get('field-handles')));
+				$link->setAttribute('data-width',    $this->get('table-width'));
+				$link->setAttribute('data-height',   $this->get('table-height'));
+				$link->setAttribute('data-resize',   $this->get('table-resize'));
+				$link->setAttribute('data-position', $this->get('table-position'));
+				$link->setAttribute('data-absolute', $this->get('table-absolute'));
+	
+				// returns the link's html code
+				return $link->generate();
+				
+				
 			}
-			
-			$link->setAttribute('data-field-handles', $this->get('field-handles'));
-			$link->setAttribute('data-width',    $this->get('table-width'));
-			$link->setAttribute('data-height',   $this->get('table-height'));
-			$link->setAttribute('data-resize',   $this->get('table-resize'));
-			$link->setAttribute('data-position', $this->get('table-position'));
-			$link->setAttribute('data-absolute', $this->get('table-absolute'));
-
-			// returns the link's html code
-			return $link->generate();
+			return NULL;
 		}
 
 		/**
