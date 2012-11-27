@@ -142,13 +142,13 @@
 			$new_settings['table-height'] = 	( isset($settings['table-height'])   ? $settings['table-height'] : NULL);
 			$new_settings['table-resize'] = 	( isset($settings['table-resize'])   ? $settings['table-resize'] : NULL);
 			$new_settings['table-position'] = 	( isset($settings['table-position']) ? $settings['table-position'] : NULL);
-			$new_settings['table-absolute'] = 	( isset($settings['table-absolute']) && $settings['table-absolute'] == 'on'     ? 'yes' : 'no');
+			$new_settings['table-absolute'] = 	( isset($settings['table-absolute']) && $settings['table-absolute'] == 'on' ? 'yes' : 'no');
 			
 			$new_settings['entry-width'] = 		( isset($settings['entry-width'])    ? $settings['entry-width'] : NULL);
 			$new_settings['entry-height'] = 	( isset($settings['entry-height'])   ? $settings['entry-height'] : NULL);
 			$new_settings['entry-resize'] = 	( isset($settings['entry-resize'])   ? $settings['entry-resize'] : NULL);
 			$new_settings['entry-position'] = 	( isset($settings['entry-position']) ? $settings['entry-position'] : NULL);
-			$new_settings['entry-absolute'] = 	( isset($settings['entry-absolute']) && $settings['entry-absolute'] == 'on'     ? 'yes' : 'no');
+			$new_settings['entry-absolute'] = 	( isset($settings['entry-absolute']) && $settings['entry-absolute'] == 'on' ? 'yes' : 'no');
 			
 			// save it into the array
 			$this->setArray($new_settings);
