@@ -21,7 +21,8 @@
 		height: 0,
 		resize: 1,
 		position: 5,
-		absolute: false
+		absolute: false,
+		isDefault: true
 	},
 	
 	defaultParameters = {
@@ -74,6 +75,7 @@
 				params.resize = resize || params.resize;
 				params.position = position || params.position;
 				params.absolute = absolute || params.absolute;
+				params.isDefault = false;
 				
 				return false; //exit for
 			}
@@ -93,7 +95,7 @@
 				img = new Image(),
 				a = container.find('a'),
 				imgSrc = a.attr('data-path') || a.attr('href'),
-				classes = (a.closest('td, div').attr('class') || '').split(' '),
+				classes = (a.closest('td').attr('class') || a.closest('div[id]').attr('id')  || '').split(' '),
 				_imageLoaded = function  (e, p, src) {
 					var lcss = {padding:0},
 						i = $('<img />').attr('src', src);

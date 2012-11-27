@@ -318,13 +318,17 @@
 		 */
 		public function displayPublishPanel(&$wrapper, $data=NULL, $flagWithError=NULL, $fieldnamePrefix=NULL, $fieldnamePostfix=NULL) {
 
-			// only set data-attributes on the wrapper
-			$wrapper->setAttribute('data-field-classes', $this->convertHandlesIntoIds($this->get('field-handles')));
-			$wrapper->setAttribute('data-width',    $this->get('entry-width'));
-			$wrapper->setAttribute('data-height',   $this->get('entry-height'));
-			$wrapper->setAttribute('data-resize',   $this->get('entry-resize'));
-			$wrapper->setAttribute('data-position', $this->get('entry-position'));
-			$wrapper->setAttribute('data-absolute', $this->get('entry-absolute'));
+			// only set data-attributes
+			$params = new XMLElement('div');
+			
+			$params->setAttribute('data-field-classes', $this->convertHandlesIntoIds($this->get('field-handles')));
+			$params->setAttribute('data-width',    $this->get('entry-width'));
+			$params->setAttribute('data-height',   $this->get('entry-height'));
+			$params->setAttribute('data-resize',   $this->get('entry-resize'));
+			$params->setAttribute('data-position', $this->get('entry-position'));
+			$params->setAttribute('data-absolute', $this->get('entry-absolute'));
+			
+			$wrapper->appendChild($params);
 		}
 
 		/**
