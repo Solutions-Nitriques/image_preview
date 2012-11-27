@@ -4,11 +4,11 @@ Version 2.0
 
 ### Makes upload fields show a preview of the file in the backend if it is an image 
 
-1- Just unzip and put in extension dir
+1- Just unzip and put in extension directory
 2- Name the folder **image_preview**
 3- Enable just like any other ext
 
-*** You must enable JIT Image Manipulation inorder to make the thumbnail work ***
+**You must enable JIT Image Manipulation inorder to make the thumbnail work**
 
 ### Image Preview Settings
 
