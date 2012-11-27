@@ -17,8 +17,11 @@
 		</author>
 	</authors>
 	<releases>
-		<release version="2.0" date="TBA" min="2.3">
-			-
+		<release version="2.0" date="2012-11-27" min="2.3">
+			- Added a Image Preview Settings field :    
+			It is now possible to customize how images are previewed.
+			You can change those settings by adding one or more `Image Preview Settings` field to you section.
+			- Minor UI updates
 		</release>
 		<release version="1.1" date="2012-07-17" min="2.3">
 			- Compatibility with Symphony 2.3
