@@ -44,7 +44,7 @@
 		 * Creates the table needed for the settings of the field
 		 */
 		public function install() {
-			return FieldImage_Preview::createFieldTable();
+			return FieldImage_Preview_Settings::createFieldTable();
 		}
 		
 		
@@ -56,7 +56,7 @@
 
 			// are we updating from lower than 2.0 ?
 			if ($ret && version_compare($previousVersion,'2.0') == -1) {
-				$ret = FieldImage_Preview::createFieldTable();
+				$ret = FieldImage_Preview_Settings::createFieldTable();
 			}
 			return $ret;
 		}
@@ -66,6 +66,6 @@
 		 * Drops the table needed for the settings of the field
 		 */
 		public function uninstall() {
-			return FieldImage_Preview::deleteFieldTable();
+			return FieldImage_Preview_Settings::deleteFieldTable();
 		}
 	}
