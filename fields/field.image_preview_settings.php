@@ -474,7 +474,7 @@
 		public function tearDown() {
 			// do nothing
 			// this field has no data
-			return true;
+			return false;
 		}
 
 
@@ -485,7 +485,19 @@
 		 * Creates table needed for entries of invidual fields
 		 */
 		public function createTable(){
-			return FALSE;
+			
+			return Symphony::Database()->query(
+			
+				"CREATE TABLE IF NOT EXISTS `tbl_entries_data_" . $this->get('id') . "` (
+					`id` int(11) unsigned NOT NULL auto_increment,
+					`entry_id` int(11) unsigned NOT NULL,
+					PRIMARY KEY  (`id`),
+					KEY `entry_id` (`entry_id`)
+				) TYPE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;"
+			
+			);
+				
+			//return FALSE;
 		}
 
 		/**
