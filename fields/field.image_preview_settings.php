@@ -264,7 +264,7 @@
 		 * @see http://symphony-cms.com/learn/api/2.2.3/toolkit/field/#fetchIncludableElements
 		 */
 		public function fetchIncludableElements() {
-			return FALSE;
+			return array();
 		}
 
 		/**
