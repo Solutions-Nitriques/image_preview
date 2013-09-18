@@ -14,7 +14,7 @@
 	
 	optionsSelector = '.field-image_preview_settings',
 	
-	selectors = '.field-upload .field-image_upload .field-uniqueupload .field-multilingual_image_upload'.split(' '),
+	selectors = '.field-upload .field-image_upload .field-uniqueupload .field-multilingual_upload_field .field-multilingual_image_upload'.split(' '),
 	
 	defaultValues = {
 		width: 40,
@@ -53,8 +53,8 @@
 	getParameters = function (classes, defaults) {
 		var params = $.extend({}, defaults);
 		
-		$.each(classes, function _forEachClass() {
-			var node = $(optionsSelector).find('*[data-field-classes*="' + this + '"]');
+		$.each(classes, function _forEachClass(index, val) {
+			var node = $(optionsSelector).find('*[data-field-classes*="' + val + '"]');
 			
 			if (!node.length) {
 				// no param found, try a param valid for all
@@ -91,12 +91,16 @@
 		}
 		
 		return t.each(function _eachField() {
-			var container = $(this),
-				img = new Image(),
-				a = container.find('a'),
-				imgSrc = a.attr('data-path') || a.attr('href'),
-				classes = (a.closest('td').attr('class') || a.closest('div[id]').attr('id')  || '').split(' '),
-				_imageLoaded = function  (e, p, src) {
+			var container = $(this);
+			var a = container.find('a');
+			
+			a.each(function (i, a) {
+				a = $(a);
+				
+				var img = new Image();
+				var imgSrc = a.attr('data-path') || a.attr('href');
+				var classes = (a.closest('td').attr('class') || a.closest('div[id]').attr('id')  || '').split(' ');
+				var _imageLoaded = function  (e, p, src) {
 					var lcss = {padding:0},
 						i = $('<img />').attr('src', src);
 					
@@ -107,17 +111,18 @@
 					a.css(lcss).empty().append(i);
 				};
 				
-			if (!!imgSrc && !!classes.length) {
+				if (!!imgSrc && !!classes.length) {
+					
+					var p = getParameters(classes, defaults);
+					var url = createUrl(imgSrc, p);
+					
+					// bind load event
+					$(img).load(function (e) { _imageLoaded(e, p, this.src); });
 				
-				var p = getParameters(classes, defaults),
-					url = createUrl(imgSrc, p);
-				
-				// bind load event
-				$(img).load(function (e) { _imageLoaded(e, p, this.src); });
-			
-				// load the image
-				img.src = url;
-			}
+					// load the image
+					img.src = url;
+				}
+			});
 		});
 	},
 
