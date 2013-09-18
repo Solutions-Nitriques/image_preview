@@ -17,8 +17,11 @@
 		</author>
 	</authors>
 	<releases>
+		<release version="2.1" date="2012-11-27" min="2.3">
+			- Compatibility with multilingual fields (more than one file/link)
+		</release>
 		<release version="2.0" date="2012-11-27" min="2.3">
-			- Added a Image Preview Settings field :    
+			- Added a Image Preview Settings field :
 			It is now possible to customize how images are previewed.
 			You can change those settings by adding one or more `Image Preview Settings` field to you section.
 			- Minor UI updates

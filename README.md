@@ -1,6 +1,6 @@
 # Image Preview
 
-Version 2.0
+Version 2.1
 
 ### Makes upload fields show a preview of the file in the backend if it is an image 
 
