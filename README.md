@@ -22,7 +22,8 @@ To enable those settings for all fields, type '*' as field hanlde.
 
 - Upload field
 - Image upload field
-- Multilingual field upload
+- Multilingual upload field 
+- Multilingual image upload
 - Unique upload field
 
 Voila !
