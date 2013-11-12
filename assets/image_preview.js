@@ -23,8 +23,9 @@
 		isDefault: true
 	};
 	
-	var defaultParameters = {
+	var params = {
 		table: $.extend({}, defaultValues),
+		associations: $.extend({}, defaultValues),
 		entry: $.extend({}, defaultValues, {width: 100}),
 	};
 	
@@ -110,6 +111,10 @@
 				};
 				
 				if (!!imgSrc && !!classes.length) {
+					// check we have the full path
+					if (!~imgSrc.indexOf('.')) {
+						imgSrc += '/' + a.text();
+					}
 					
 					var p = getParameters(classes, defaults);
 					var url = createUrl(imgSrc, p);
@@ -144,10 +149,13 @@
 			var sel = this;
 			
 			// list view
-			addImage($('td' + sel), defaultParameters.table);
+			addImage($('td' + sel), params.table);
 			
 			// detail view
-			addImage($('div' + sel), defaultParameters.entry);
+			addImage($('div' + sel), params.entry);
+			
+			// association view
+			addImage($('li' + sel), params.associations);
 		});
 	};
 	
