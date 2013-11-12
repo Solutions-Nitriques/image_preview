@@ -1,4 +1,4 @@
-﻿/**
+/**
  * Image Preview
  * 
  * @author Deux Huit Huit
@@ -10,29 +10,27 @@
 	
 	"use strict";
 
-	var 
+	var optionsSelector = '.field-image_preview_settings';
 	
-	optionsSelector = '.field-image_preview_settings',
+	var selectors = '.field-upload .field-image_upload .field-uniqueupload .field-multilingual_upload_field .field-multilingual_image_upload'.split(' ');
 	
-	selectors = '.field-upload .field-image_upload .field-uniqueupload .field-multilingual_upload_field .field-multilingual_image_upload'.split(' '),
-	
-	defaultValues = {
+	var defaultValues = {
 		width: 40,
 		height: 0,
 		resize: 1,
 		position: 5,
 		absolute: false,
 		isDefault: true
-	},
+	};
 	
-	defaultParameters = {
+	var defaultParameters = {
 		table: $.extend({}, defaultValues),
 		entry: $.extend({}, defaultValues, {width: 100}),
-	},
+	};
 	
-	WORKSPACE = 'workspace',
+	var WORKSPACE = 'workspace';
 	
-	createUrl = function (imgSrc, params) {
+	var createUrl = function (imgSrc, params) {
 		
 		var newSrc = 'image/{resize}/{width}/{height}{position}';
 		
@@ -48,9 +46,9 @@
 		}
 		
 		return newSrc;
-	},
+	};
 	
-	getParameters = function (classes, defaults) {
+	var getParameters = function (classes, defaults) {
 		var params = $.extend({}, defaults);
 		
 		$.each(classes, function _forEachClass(index, val) {
@@ -83,9 +81,9 @@
 		});
 		
 		return params;
-	},
+	};
 	
-	addImage = function(t, defaults) {
+	var addImage = function(t, defaults) {
 		if (!t || !t.length) { 
 			return t;
 		}
@@ -124,9 +122,9 @@
 				}
 			});
 		});
-	},
+	};
 
-	init = function () {
+	var init = function () {
 		
 		// hide field
 		var fields = $(optionsSelector);
