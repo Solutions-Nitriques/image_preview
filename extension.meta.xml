@@ -17,6 +17,9 @@
 		</author>
 	</authors>
 	<releases>
+		<release version="2.2" date="2014-07-22" min="2.3">
+			- Compatibility for custom url: assets are now loaded using full absolute url
+		</release>
 		<release version="2.1" date="2012-11-27" min="2.3">
 			- Compatibility with multilingual fields (more than one file/link)
 		</release>
