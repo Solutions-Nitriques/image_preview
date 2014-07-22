@@ -17,20 +17,20 @@
 		</author>
 	</authors>
 	<releases>
-		<release version="2.2" date="2014-07-22" min="2.3">
+		<release version="2.2" date="2014-07-22" min="2.3" max="2.4">
 			- Compatibility for custom url: assets are now loaded using full absolute url
 			- Support for Association Drawer
 		</release>
-		<release version="2.1" date="2012-11-27" min="2.3">
+		<release version="2.1" date="2012-11-27" min="2.3" max="2.4">
 			- Compatibility with multilingual fields (more than one file/link)
 		</release>
-		<release version="2.0" date="2012-11-27" min="2.3">
+		<release version="2.0" date="2012-11-27" min="2.3" max="2.4">
 			- Added a Image Preview Settings field :
 			It is now possible to customize how images are previewed.
 			You can change those settings by adding one or more `Image Preview Settings` field to you section.
 			- Minor UI updates
 		</release>
-		<release version="1.1" date="2012-07-17" min="2.3">
+		<release version="1.1" date="2012-07-17" min="2.3" max="2.3.6">
 			- Compatibility with Symphony 2.3
 		</release>
 		<release version="1.0" date="2011-06-13" min="2.2" max="2.2.5">
