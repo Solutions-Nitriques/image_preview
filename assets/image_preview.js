@@ -100,7 +100,9 @@
 			
 			a.each(function (i, a) {
 				a = $(a);
-				
+				if (!!a.find('img').length) {
+					return;
+				}
 				var img = new Image();
 				var imgSrc = a.attr('data-path') || a.attr('href');
 				var classes = (a.closest('td').attr('class') || a.closest('div[id]').attr('id')  || '').split(' ');
