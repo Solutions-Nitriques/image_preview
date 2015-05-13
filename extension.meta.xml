@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <extension id="image_preview" status="released" xmlns="http://symphony-cms.com/schemas/extension/1.0">
 	<name>Image Preview</name>
-	<description>image, preview, upload field</description>
+	<description>Replaces the textual link to the image with the real image</description>
 	<repo type="github">https://github.com/Solutions-Nitriques/image_preview</repo>
 	<url type="discuss">http://getsymphony.com/discuss/thread/71485/</url>
 	<url type="issues">https://github.com/Solutions-Nitriques/image_preview/issues</url>
@@ -13,10 +13,14 @@
 	<authors>
 		<author>
 			<name github="DeuxHuitHuit" symphony="nitriques" twitter="DeuxHuitHuit">Deux Huit Huit</name>
-			<website>http://www.deuxhuithuit.com/</website>
+			<website>https://deuxhuithuit.com/</website>
 		</author>
 	</authors>
 	<releases>
+		<release version="2.3.0" date="2015-05-13" min="2.3" max="2.6.x">
+			- Added support for svg
+			- Do not request any file if there is already an image in the link
+		</release>
 		<release version="2.2" date="2014-07-22" min="2.3" max="2.4">
 			- Compatibility for custom url: assets are now loaded using full absolute url
 			- Support for Association Drawer
