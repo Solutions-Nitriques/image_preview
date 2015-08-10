@@ -17,6 +17,9 @@
 		</author>
 	</authors>
 	<releases>
+		<release version="2.3.1" date="2015-08-10" min="2.3" max="2.6.x">
+			- UI (css) fixes
+		</release>
 		<release version="2.3.0" date="2015-05-13" min="2.3" max="2.6.x">
 			- Added support for svg
 			- Do not request any file if there is already an image in the link
