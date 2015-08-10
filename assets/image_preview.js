@@ -107,12 +107,22 @@
 				var imgSrc = a.attr('data-path') || a.attr('href');
 				var classes = (a.closest('td').attr('class') || a.closest('div[id]').attr('id')  || '').split(' ');
 				var _imageLoaded = function  (e, p, src) {
-					var lcss = {padding:0},
-						i = $('<img />').attr('src', src);
+					var lcss = {
+						padding: 0,
+						display: 'inline-block',
+						maxWidth: '100%',
+						textDecoration: 'none',
+						border: 'none'
+					};
+					var i = $('<img />').attr('src', src);
 					
 					if (!!p.absolute) {
 						i.css({position:'absolute'});
 					}
+					i.css({
+						display: 'block',
+						maxWidth: '100%'
+					});
 					
 					a.css(lcss).empty().append(i);
 				};
