@@ -17,6 +17,9 @@
 		</author>
 	</authors>
 	<releases>
+		<release version="2.3.2" date="2015-09-28" min="2.3" max="2.6.x">
+			- Added missing .field-multilingual_upload selector
+		</release>
 		<release version="2.3.1" date="2015-08-10" min="2.3" max="2.6.x">
 			- UI (css) fixes
 		</release>
