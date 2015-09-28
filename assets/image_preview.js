@@ -12,7 +12,7 @@
 
 	var optionsSelector = '.field-image_preview_settings';
 	
-	var selectors = '.field-upload .field-image_upload .field-uniqueupload .field-multilingual_upload_field .field-multilingual_image_upload'.split(' ');
+	var selectors = '.field-upload .field-image_upload .field-uniqueupload .field-multilingual_upload_field .field-multilingual_upload .field-multilingual_image_upload'.split(' ');
 	
 	var defaultValues = {
 		width: 40,
