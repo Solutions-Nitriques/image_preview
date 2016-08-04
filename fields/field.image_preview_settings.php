@@ -161,7 +161,7 @@
 		 *
 		 * Validates the field settings before saving it into the field's table
 		 */
-		public function checkFields(Array &$errors, $checkForDuplicates) {
+		public function checkFields(array &$errors, $checkForDuplicates = true) {
 			parent::checkFields($errors, $checkForDuplicates);
 
 			$field_handles = $this->get('field-handles');
@@ -272,7 +272,7 @@
 		 * @param $wrapper
 		 * @param $data
 		 */
-		public function appendFormattedElement(&$wrapper, $data) {
+		public function appendFormattedElement(XMLElement &$wrapper, $data, $encode = false, $mode = NULL, $entry_id = NULL) {
 			return FALSE;
 		}
 
@@ -314,7 +314,7 @@
 		 * @param string $fieldnamePrefix
 		 * @param string $fieldnamePostfix
 		 */
-		public function displayPublishPanel(&$wrapper, $data=NULL, $flagWithError=NULL, $fieldnamePrefix=NULL, $fieldnamePostfix=NULL) {
+		public function displayPublishPanel(XMLElement &$wrapper, $data = NULL, $flagWithError = NULL, $fieldnamePrefix = NULL, $fieldnamePostfix = NULL, $entry_id = NULL) {
 
 			// only set data-attributes
 			$params = new XMLElement('div');
@@ -335,7 +335,7 @@
 		 * @param XMLElement $wrapper
 		 * @param array $errors
 		 */
-		public function displaySettingsPanel(&$wrapper, $errors=NULL){
+		public function displaySettingsPanel(XMLElement &$wrapper, $errors=NULL){
 
 			/* first line, label and such */
 			parent::displaySettingsPanel($wrapper, $errors);
@@ -391,7 +391,7 @@
 			//var_dump($errors[$key]);
 
 			if (isset($errors[$key])) {
-				$lbl = Widget::wrapFormElementWithError($lbl, $errors[$key]);
+				$lbl = Widget::Error($lbl, $errors[$key]);
 			}
 
 			return $lbl;
@@ -425,7 +425,7 @@
 		 * @param XMLElement $link
 		 * @return string - the html of the link
 		 */
-		public function prepareTableValue($data, XMLElement $link=NULL){
+		public function prepareTableValue($data, XMLElement $link = NULL, $entry_id = NULL){
 
 			if (!$this->tableValueGenerated) {
 

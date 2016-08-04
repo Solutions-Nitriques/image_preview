@@ -30,7 +30,7 @@
 			$c = Administration::instance()->getPageCallback();
 			$c = $c['pageroot'];
 			
-			// Only add when editing a section
+			// Only add when editing an entry
 			if ($this->startsWith($c, '/publish/')) {
 				Administration::instance()->Page->addScriptToHead(URL.'/extensions/image_preview/assets/image_preview.js',time()+1);
 			}
@@ -51,7 +51,7 @@
 		/**
 		 * Creates the table needed for the settings of the field
 		 */
-		public function update($previousVersion) {
+		public function update($previousVersion = false) {
 			$ret = true;
 
 			// are we updating from lower than 2.0 ?
