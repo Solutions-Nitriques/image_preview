@@ -393,9 +393,7 @@ class FieldImage_Preview_Settings extends Field
         ));
         $input->setSelfClosingTag(true);
 
-        $lbl->prependChild($input);
-
-        //var_dump($errors[$key]);
+        $lbl->appendChild($input);
 
         if (isset($errors[$key])) {
             $lbl = Widget::Error($lbl, $errors[$key]);
